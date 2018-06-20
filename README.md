@@ -1,4 +1,4 @@
-# Description
+# vdirfloat
 
 `vdirfloat` implements floating appointments using a vdir.
 
