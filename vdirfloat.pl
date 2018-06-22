@@ -3,8 +3,8 @@
 # Author          : Johan Vromans
 # Created On      : Sat Jun 16 20:58:47 2018
 # Last Modified By: Johan Vromans
-# Last Modified On: Wed Jun 20 10:18:50 2018
-# Update Count    : 192
+# Last Modified On: Fri Jun 22 11:57:54 2018
+# Update Count    : 193
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -82,6 +82,11 @@ sub make_float {
 	    next;
 	}
 
+	if ( $e->status && $e->status eq "CANCELLED" ) {
+	    warn("$file: Cancelled\n") if $verbose;
+	    next;
+	}
+
 	if ( substr( $e->summary, 0, 1 ) eq $floatsym ) {
 	    warn("$file: Already floating\n") if $verbose;
 	    next;
@@ -130,7 +135,7 @@ sub shift_float {
 	    next;
 	}
 
-	if ( $e->status && $e->status eq "CONFIRMED" ) {
+	if ( $e->status && $e->status =~ /^(CONFIRMED|CANCELLED)$/ ) {
 	    $e->summary( substr( $e->summary, 1 ) );
 	    last_modified($e);
 	    $rewrite++;
