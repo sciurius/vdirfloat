@@ -27,6 +27,6 @@ appointment, and update the date to today's date. This needs to be
 done once per day, preferrable close after midnight. A cron task or
 equivalent can do that for you.
 
-`vdirfloat' is written in Perl and should run on virtually any system
-that supports Perl. It requires CPAN modules `Data::ICal' and
-`Data::ICal::DateTime'. 
+`vdirfloat` is written in Perl and should run on virtually any system
+that supports Perl. It requires CPAN modules `Data::ICal` and
+`Data::ICal::DateTime`. 
