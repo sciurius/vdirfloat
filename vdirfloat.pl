@@ -3,8 +3,8 @@
 # Author          : Johan Vromans
 # Created On      : Sat Jun 16 20:58:47 2018
 # Last Modified By: Johan Vromans
-# Last Modified On: Fri Jun 22 11:57:54 2018
-# Update Count    : 193
+# Last Modified On: Tue Jul 17 21:31:30 2018
+# Update Count    : 197
 # Status          : Unknown, Use with caution!
 
 ################ Common stuff ################
@@ -16,7 +16,7 @@ use utf8;
 # Package name.
 my $my_package = 'Sciurix';
 # Program name and version.
-my ($my_name, $my_version) = qw( vdirfloat 0.01 );
+my ($my_name, $my_version) = qw( vdirfloat 1.00 );
 
 ################ Command line parameters ################
 
@@ -77,6 +77,11 @@ sub make_float {
     foreach my $e ( @{ $c->entries } ) {
 	next unless $e->ical_entry_type eq 'VEVENT';
 
+	if ( $e->recurrence ) {
+	    warn("$file: Skipped (recurring)\n") if $verbose;
+	    next;
+	}
+
 	if ( $e->status && $e->status eq "CONFIRMED" ) {
 	    warn("$file: Already completed\n") if $verbose;
 	    next;
@@ -109,6 +114,11 @@ sub make_unfloat {
     foreach my $e ( @{ $c->entries } ) {
 	next unless $e->ical_entry_type eq 'VEVENT';
 
+	if ( $e->recurrence ) {
+	    warn("$file: Skipped (recurring)\n") if $verbose;
+	    next;
+	}
+
 	unless ( $e->summary =~ /^$floatsym(.*)/s ) {
 	    warn("$file: Not floating\n") if $verbose;
 	    next;
@@ -132,6 +142,11 @@ sub shift_float {
 
 	unless ( substr( $e->summary, 0, 1 ) eq $floatsym ) {
 	    warn("$file: Not floating\n") if $verbose;
+	    next;
+	}
+
+	if ( $e->recurrence ) {
+	    warn("$file: Skipped (recurring)\n") if $verbose;
 	    next;
 	}
 
